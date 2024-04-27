@@ -1,0 +1,18 @@
+local status, ts_conf = pcall(require, 'nvim-treesitter.configs');
+
+if not status then
+    return
+end
+
+ts_conf.setup {
+    -- A list of parser names, or "all" (the five listed parsers should always be installed).
+
+    ensure_installed = { 'c', 'javascript', 'lua', 'vim', 'vimdoc', 'query' },
+    sync_install     = false,
+    auto_install     = true,
+
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    }
+}
