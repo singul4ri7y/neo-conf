@@ -10,6 +10,12 @@ keymap('', '<Space>', '<Nop>', opts)
 vim.g.mapleader      = ' '
 vim.g.maplocalleader = ' '
 
+function append_cursor() 
+    local cursor_pos = vim.api.nvim_win_get_cursor(0)
+    vim.api.nvim_command('normal! o')
+    vim.api.nvim_win_set_cursor(0, cursor_pos)
+end
+
 -- Modes
 local normal_mode = 'n'
 local insert_mode = 'i'
@@ -25,7 +31,6 @@ keymap(normal_mode, '<C-k>', '<C-w>k', opts)
 keymap(normal_mode, '<C-l>', '<C-w>l', opts)
 
 -- Resize with arrows
-
 keymap(normal_mode, '<C-Up>', ':resize +1<CR>', opts)
 keymap(normal_mode, '<C-Down>', ':resize -1<CR>', opts)
 keymap(normal_mode, '<C-Left>', ':vertical resize -1<CR>', opts)
@@ -43,6 +48,9 @@ keymap(normal_mode, '<A-k>', ':m .-2<CR>==', opts)
 -- Remap redo
 keymap(normal_mode, '<C-u>', '<C-r>', opts)
 
+-- Add newlines at the bottom of cursor without moving it
+keymap(normal_mode, '<C-S-j>', ':lua append_cursor()<CR>', opts)
+
 -- Go to the end/beginning of the line
 keymap(normal_mode, '<A-h>', '^', opts)
 keymap(normal_mode, '<A-l>', '$', opts)
@@ -53,29 +61,37 @@ keymap(normal_mode, '<C-e>', ':NvimTreeToggle<CR>', opts)
 -- Delete current buffer
 keymap(normal_mode, '<C-b>', ':Bdelete<cr>', opts)
 
+-- Copy current line up or down
+keymap(normal_mode, '<C-A-j>', 'yyp', opts);
+keymap(normal_mode, '<C-A-k>', 'yyP', opts);
+
+-- Substitutions
+keymap(normal_mode, 's', ':s/', opts);
+
 -- Save and quit buffer
 keymap(normal_mode, '<leader>w', ':write<CR>', opts)
 keymap(normal_mode, '<leader>q', ':q<CR>', opts)
-
--- Terminal
-keymap(normal_mode, '<leader>git', ':lua _LAZYGIT_TOGGLE()<CR>', opts)
-keymap(normal_mode, '<leader>node', ':lua _NODE_TOGGLE()<CR>', opts)
-keymap(normal_mode, '<leader>py', ':lua _PY_TOGGLE()<CR>', opts)
-keymap(normal_mode, '<leader>pro', ':lua _PR_TOGGLE()<CR>', opts)
 
 -- Tabs
 keymap(normal_mode, '<A-H>', ':<<CR>', opts)
 keymap(normal_mode, '<A-L>', ':><CR>', opts)
 
 -- Paragraph jumping
-keymap(normal_mode, '<C-j>', '<C-o>}', opts);
-keymap(normal_mode, '<C-k>', '<C-o>{', opts);
+keymap(normal_mode, '<A-J>', '}', opts);
+keymap(normal_mode, '<A-K>', '{', opts);
+
+-- Annoying
+keymap(normal_mode, 'J', '', opts)
+keymap(normal_mode, 'K', '', opts)
 
 -- INSERT MODE --
 
 -- Get out of insert mode
 keymap(insert_mode, 'jk', '<ESC>', opts)
 keymap(insert_mode, 'kj', '<ESC>', opts)
+
+-- Add newlines at the bottom of cursor without moving it
+keymap(insert_mode, '<C-S-j>', '<C-o>:lua append_cursor()<CR>', opts)
 
 -- Move text up and down
 keymap(insert_mode, '<A-j>', '<C-o>:m .+1<CR>', opts)
@@ -102,13 +118,17 @@ keymap(insert_mode, '<C-e>', '<C-o>:NvimTreeToggle', opts)
 -- Pasting
 keymap(insert_mode, '<C-p>', '<C-o>P', opts)
 
+-- Copy current line up or down.
+keymap(insert_mode, '<C-A-j>', '<C-o>yy<C-o>p', opts);
+keymap(insert_mode, '<C-A-k>', '<C-o>yy<C-o>P', opts);
+
 -- Tabs
 keymap(insert_mode, '<A-L>', '<C-o>:><CR>', opts)
 keymap(insert_mode, '<A-H>', '<C-o>:<<CR>', opts)
 
 -- Paragraph jumping
-keymap(insert_mode, '<C-j>', '<C-o>}', opts);
-keymap(insert_mode, '<C-k>', '<C-o>{', opts);
+keymap(insert_mode, '<A-J>', '<C-o>}', opts);
+keymap(insert_mode, '<A-K>', '<C-o>{', opts);
 
 -- VISUAL MODE --
 
@@ -116,14 +136,28 @@ keymap(insert_mode, '<C-k>', '<C-o>{', opts);
 keymap(visual_mode, '<A-H>', '<gv^', opts)
 keymap(visual_mode, '<A-L>', '>gv^', opts)
 
+-- Paragraph jumping
+keymap(visual_mode, '<A-J>', '}', opts);
+keymap(visual_mode, '<A-K>', '{', opts);
+
+-- Substitutions.
+keymap(visual_mode, 's', ':s/', opts)
+
 -- Move text up and down
 keymap(visual_mode, '<A-j>', '<S-j>', opts)
 keymap(visual_mode, '<A-k>', '<S-k>', opts)
 keymap(visual_mode, 'p', '"_dP', opts)
 
+-- Substitutions
+keymap(visual_mode, 's', ':s/', opts);
+
 -- Disable text movement using SHIFT and J/K
 keymap(visual_mode, '<S-k>', '', opts)
 keymap(visual_mode, '<S-j>', '', opts)
+
+-- Copy current line up or down
+keymap(visual_mode, '<C-A-j>', 'ygv:norm! `<<CR>Pgv=gv', opts);
+keymap(visual_mode, '<C-A-k>', 'ygv:norm! `><CR>pgv=gv', opts);
 
 -- Remap '<' and '>' to nothing. We have already mapped keys for indentation.
 keymap(visual_mode, '>', '', opts)
@@ -142,6 +176,10 @@ keymap(vb_mode, '<A-l>', '$', opts)
 -- Remap '<' and '>' to nothing. We have already mapped keys for indentation.
 keymap(vb_mode, '>', '', opts)
 keymap(vb_mode, '<', '', opts)
+
+-- Paragraph jumping
+keymap(vb_mode, '<A-J>', '}', opts);
+keymap(vb_mode, '<A-K>', '{', opts);
 
 -- Remap insert
 keymap(vb_mode, 'i', 'I', opts)

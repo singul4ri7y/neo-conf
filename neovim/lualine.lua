@@ -14,19 +14,19 @@ local mode = {
     'mode',
     fmt = function(str)
         if str == 'NORMAL' then
-            return '         '
+            return '│         │'
         elseif str == 'INSERT' then
-            return '        '
+            return '│        │'
         elseif str == 'COMMAND' then
-            return '        '
+            return '│        │'
         elseif str == 'VISUAL' then
-            return '    󰕷     '
+            return '│    󰕷     │'
         elseif str == 'V-LINE' then
-            return '    󰉸     '
+            return '│    󰉸     │'
         elseif str == 'V-BLOCK' then
-            return '    󱊈    '
+            return '│    󱊈    │'
         elseif str == 'TERMINAL' then
-            return '        '
+            return '│        │'
         end
 
         return str
@@ -53,9 +53,9 @@ local diff = {
     'diff',
     colored = true,
     symbols = {
-        added = '󰐕',
-        modified = '󱤅',
-        removed = '󰍴'
+        added = '󰝒 ',
+        modified = ' ',
+        removed = '󱪡 '
     },
     diff_color = {
         added = { fg = '#70ad63' },

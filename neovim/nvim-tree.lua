@@ -11,12 +11,10 @@ local function on_attach(bufnr)
         return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
     end
 
-    -- Default mappings.
-
+    -- Default mappings
     api.config.mappings.default_on_attach(bufnr)
 
-    -- Custom mappings.
-
+    -- Custom mappings
     vim.keymap.set('n', '<C-e>', api.tree.toggle,                opts 'Toggle Tree')
     vim.keymap.set('n', '>',     api.tree.change_root_to_node,   opts 'Change Root')
     vim.keymap.set('n', '<',     api.tree.change_root_to_parent, opts 'Up')
@@ -30,6 +28,12 @@ nvim_tree.setup {
     disable_netrw = true,
     hijack_netrw = true,
     hijack_unnamed_buffer_when_opening = false,
+    actions = {
+        change_dir = {
+            enable = true,
+            global = true
+        }
+    },
     renderer = {
         add_trailing = false,
         group_empty = false,
@@ -80,7 +84,7 @@ nvim_tree.setup {
                 folder_arrow = true,
                 git = true,
                 modified = true,
-                diagnostics = true,
+                diagnostics = false,
                 bookmarks = true,
             },
             glyphs = {

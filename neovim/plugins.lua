@@ -51,12 +51,9 @@ return packer.startup(function(use)
     -- Colorscheme
     use 'Shatur/neovim-ayu'
 
-    -- Colorizer
-    use 'norcalli/nvim-colorizer.lua'
-
     -- Treesitter
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
-    use 'nvim-treesitter/playground'
+    -- use 'nvim-treesitter/playground'
 
     -- Lualine as statusline
     use 'nvim-lualine/lualine.nvim'
@@ -76,19 +73,9 @@ return packer.startup(function(use)
 
     -- Telescope
     use { 'nvim-telescope/telescope.nvim', tag = '0.1.5', requires = 'nvim-lua/plenary.nvim' }
-    use 'airblade/vim-rooter'
 
     -- Git
     use 'lewis6991/gitsigns.nvim'
-
-    -- Toggleterm
-    use 'akinsho/toggleterm.nvim'
-
-    -- Startup
-    use {
-        'startup-nvim/startup.nvim',
-        requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' }
-    }
 
     if PACKER_BOOTSTRAP then
         require('packer').sync();
